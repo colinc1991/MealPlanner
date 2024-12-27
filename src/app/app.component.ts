@@ -33,29 +33,30 @@ export class AppComponent implements OnInit {
         if (lockedMeals.length > 0) {
             this.meals = this.meals.filter(x => !lockedMeals.includes(x.name))
         }
-        debugger;
-        this.shuffle(this.meals);
 
         // meatMeals doesn't include fish because fish is usually smoked salmon and lasts a while
         this.meatMeals = this.meals.filter(x => x.tags.includes(MealTag.Beef) || x.tags.includes(MealTag.Chicken));
         this.vegMeals = this.meals.filter(x => x.tags.includes(MealTag.Vegetarian));
 
-        // we use a separate index for meals in the event of us locking down a meal leading to fewer array elements to choose from
-        let mealIndex = 0;
+        this.shuffle(this.meatMeals);
+        this.shuffle(this.vegMeals);
+
+        let meatMealIndex = 0;
+        let vegMealIndex = 0;
         for (let i = 0; i < this.mealPlans.length; i++) {
             if (this.mealPlans[i].isLocked) {
                 continue;
             }
             // first 5 days are meat meals
             if (i < 5) {
-                this.mealPlans[i].meal = this.meatMeals[mealIndex]
+                this.mealPlans[i].meal = this.meatMeals[meatMealIndex]
+                meatMealIndex++
             }
             // last two days are veg meals
             else {
-                this.mealPlans[i].meal = this.vegMeals[mealIndex]
+                this.mealPlans[i].meal = this.vegMeals[vegMealIndex]
+                vegMealIndex++
             }
-            this.mealPlans[i].meal = this.meals[mealIndex]
-            mealIndex++;
         }
     }
 
