@@ -52,4 +52,8 @@ export const MEAL_LIST: Meal[] = [
         name: 'Fry up',
         tags: [MealTag.LongLife, MealTag.Pork, MealTag.Easy]
     },
+    {
+        name: 'Steak sandwich',
+        tags: [MealTag.Beef, MealTag.Easy]
+    },
 ];
