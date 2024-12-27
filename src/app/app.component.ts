@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
         }
 
         // meatMeals doesn't include fish because fish is usually smoked salmon and lasts a while
-        this.meatMeals = this.meals.filter(x => x.tags.includes(MealTag.Beef) || x.tags.includes(MealTag.Chicken));
+        this.meatMeals = this.meals.filter(x => x.tags.includes(MealTag.Beef) || x.tags.includes(MealTag.Chicken) || x.tags.includes(MealTag.Turkey));
         this.vegMeals = this.meals.filter(x => x.tags.includes(MealTag.Vegetarian));
 
         this.shuffle(this.meatMeals);

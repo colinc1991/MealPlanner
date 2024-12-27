@@ -40,4 +40,8 @@ export const MEAL_LIST: Meal[] = [
         name: 'Salmon bagels',
         tags: [MealTag.Easy, MealTag.Quick]
     },
+    {
+        name: 'Hartwich',
+        tags: [MealTag.Turkey]
+    },
 ];
