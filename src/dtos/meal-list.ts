@@ -44,4 +44,12 @@ export const MEAL_LIST: Meal[] = [
         name: 'Hartwich',
         tags: [MealTag.Turkey]
     },
+    {
+        name: 'Ham & cheese rolls',
+        tags: [MealTag.LongLife]
+    },
+    {
+        name: 'Fry up',
+        tags: [MealTag.LongLife, MealTag.Pork, MealTag.Easy]
+    },
 ];

@@ -5,5 +5,7 @@ export enum MealTag {
     Chicken = "Chicken",
     Beef = "Beef",
     Fish = "Fish",
-    Turkey = "Turkey"
+    Turkey = "Turkey",
+    LongLife = "Long Life",
+    Pork = "Pork",
 }
