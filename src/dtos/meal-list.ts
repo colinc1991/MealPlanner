@@ -3,7 +3,6 @@ import { MealTag } from "./meal-tag";
 
 
 export const MEAL_LIST: Meal[] = [
-
     {
         name: 'Mac n cheese',
         tags: [MealTag.Vegetarian]

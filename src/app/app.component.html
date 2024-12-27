@@ -1,34 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
+<div id="plan-container">
+    <table>
+        <tr>
+            <th>Day</th>
+            <th>Meal</th>
+            <th>Lock meal?</th>
+        </tr>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meal planner</title>
-</head>
-
-<body>
-    <div id="plan-container">
-        <table>
-            <tr>
-                <th>Day</th>
-                <th>Meal</th>
-                <th>Lock meal?</th>
-            </tr>
-
-            @for (mealPlan of mealPlans; track $index) {
-            <tr>
-                <td>{{mealPlan.dayOfWeek}}</td>
-                <td>{{mealPlan.meal.name}}</td>
-                <td>
-                    <input type="checkbox" name="" id="" [(ngModel)]="mealPlan.isLocked"
-                        [disabled]="mealPlan.meal == null">
-                </td>
-            </tr>
-            }
-        </table>
-    </div>
-    <button (click)="shufflePlan()">Shuffle plan</button>
-</body>
-
-</html>
+        @for (mealPlan of mealPlans; track $index) {
+        <tr>
+            <td>{{mealPlan.dayOfWeek}}</td>
+            <td>{{mealPlan.meal.name}}</td>
+            <td>
+                <input type="checkbox" name="" id="" [(ngModel)]="mealPlan.isLocked" [disabled]="mealPlan.meal == null">
+            </td>
+        </tr>
+        }
+    </table>
+</div>
+<button (click)="shufflePlan()">Shuffle plan</button>

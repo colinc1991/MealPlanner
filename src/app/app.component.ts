@@ -14,7 +14,7 @@ import { MealTag } from '../dtos/meal-tag';
     styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
-    title = 'MealPlanner';
+    title = 'Meal Planner';
     mealPlans: MealPlan[];
     meals: Meal[] = MEAL_LIST;
     meatMeals: Meal[] = [];
