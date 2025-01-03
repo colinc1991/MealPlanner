@@ -16,14 +16,11 @@ import { MealService } from '../services/meal.service';
     styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
-    title = 'Meal Planner';
     mealPlans: MealPlan[];
     meals: Meal[];
-    meatMeals: Meal[] = [];
-    vegMeals: Meal[] = [];
     filterItems: FilterItem[];
-    mealTags: MealTag[] = Object.values(MealTag);
-    mealService: MealService;
+
+    private mealService: MealService;
 
     constructor(mealService: MealService) {
         this.mealPlans = this.initMealPlans();
@@ -44,26 +41,26 @@ export class AppComponent implements OnInit {
         }
 
         // meatMeals doesn't include fish because fish is usually smoked salmon and lasts a while
-        this.meatMeals = this.meals.filter(x => x.tags.includes(MealTag.Beef) || x.tags.includes(MealTag.Chicken) || x.tags.includes(MealTag.Turkey));
-        this.vegMeals = this.meals.filter(x => (x.tags.includes(MealTag.Vegetarian) || x.tags.includes(MealTag.LongLife)) && !x.tags.includes(MealTag.NonVegetarian));
+        let meatMeals = this.meals.filter(x => x.tags.includes(MealTag.Beef) || x.tags.includes(MealTag.Chicken) || x.tags.includes(MealTag.Turkey));
+        let vegMeals = this.meals.filter(x => (x.tags.includes(MealTag.Vegetarian) || x.tags.includes(MealTag.LongLife)) && !x.tags.includes(MealTag.NonVegetarian));
 
-        if (this.vegMeals.length < 2 && this.meatMeals.length < 5) {
+        if (vegMeals.length < 2 && meatMeals.length < 5) {
             alert('Need at leat 2 veg and 5 meat meals');
             return;
         }
 
-        if (this.vegMeals.length < 2) {
+        if (vegMeals.length < 2) {
             alert('Need at least 2 veg meals');
             return;
         }
 
-        if (this.meatMeals.length < 5) {
+        if (meatMeals.length < 5) {
             alert('Need at least 5 meat meals');
             return;
         }
 
-        this.shuffle(this.meatMeals);
-        this.shuffle(this.vegMeals);
+        this.shuffle(meatMeals);
+        this.shuffle(vegMeals);
 
         let meatMealIndex = 0;
         let vegMealIndex = 0;
@@ -73,12 +70,12 @@ export class AppComponent implements OnInit {
             }
             // first 5 days are meat meals
             if (i < 5) {
-                this.mealPlans[i].meal = this.meatMeals[meatMealIndex]
+                this.mealPlans[i].meal = meatMeals[meatMealIndex]
                 meatMealIndex++
             }
             // last two days are veg meals
             else {
-                this.mealPlans[i].meal = this.vegMeals[vegMealIndex]
+                this.mealPlans[i].meal = vegMeals[vegMealIndex]
                 vegMealIndex++
             }
         }
@@ -114,9 +111,10 @@ export class AppComponent implements OnInit {
     }
 
     private initFilterItems(): FilterItem[] {
+        const mealTags: MealTag[] = Object.values(MealTag);
         let filterItems: FilterItem[] = [];
-        for (let i = 0; i < this.mealTags.length; i++) {
-            const element = this.mealTags[i];
+        for (let i = 0; i < mealTags.length; i++) {
+            const element = mealTags[i];
 
             filterItems.push({ active: true, tag: element });
         }
