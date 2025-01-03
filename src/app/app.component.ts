@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Meal } from '../dtos/meal';
 import { MealPlan } from '../dtos/meal-plan';
 import { FormsModule } from '@angular/forms';
-import { MEAL_LIST } from '../dtos/meal-list';
 import { MealTag } from '../dtos/meal-tag';
 import { FilterItem } from '../dtos/filter-item';
 import { FilterItemComponent } from "./filter-item/filter-item.component";
+import { MealService } from '../services/meal.service';
 
 
 @Component({
@@ -18,15 +18,19 @@ import { FilterItemComponent } from "./filter-item/filter-item.component";
 export class AppComponent implements OnInit {
     title = 'Meal Planner';
     mealPlans: MealPlan[];
-    meals: Meal[] = MEAL_LIST;
+    meals: Meal[];
     meatMeals: Meal[] = [];
     vegMeals: Meal[] = [];
     filterItems: FilterItem[];
     mealTags: MealTag[] = Object.values(MealTag);
+    mealService: MealService;
 
-    constructor() {
+    constructor(mealService: MealService) {
         this.mealPlans = this.initMealPlans();
         this.filterItems = this.initFilterItems();
+        this.mealService = mealService;
+
+        this.meals = this.mealService.getMeals();
     }
 
     ngOnInit(): void {
@@ -66,14 +70,17 @@ export class AppComponent implements OnInit {
     }
 
     handleFilterItemClick($event: FilterItem) {
+        this.meals = this.mealService.getMeals();
         const filterItem = this.filterItems.find(x => x.tag == $event.tag);
         if (filterItem) {
             filterItem.active = $event.active;
         }
 
         const activeFilterTags: string[] = this.filterItems.filter(x => x.active == true).map(x => x.tag.toString());
+        const inactiveFilterTags: string[] = this.filterItems.filter(x => x.active == false).map(x => x.tag.toString());
         const filteredMeals = this.meals.filter(x =>
-            x.tags.some(y => activeFilterTags.includes(y.toString()))
+            x.tags.some(y => activeFilterTags.includes(y.toString())) &&
+            !x.tags.some(y => inactiveFilterTags.includes(y.toString()))
         );
         this.meals = filteredMeals;
     }
