@@ -19,10 +19,20 @@
             </tr>
             }
         </table>
-        <div id="shuffleButton" class="clickable" (click)="shufflePlan()">Shuffle plan</div>
+        <div class="button-container flex">
+            <div id="shuffleButton" class="clickable" (click)="shufflePlan()">Shuffle plan</div>
+        </div>
     </div>
     <div id="meal-list">
         <h2>Meal list</h2>
+
+        <div id="meal-tag-container">
+            @for (filterItem of filterItems; track $index) {
+            <app-filter-item [name]="filterItem.tag" [active]="filterItem.active"
+                (activeChangedEvent)="handleFilterItemClick($event)"></app-filter-item>
+            }
+        </div>
+
         @for (meal of meals; track $index) {
         <div>{{meal.name}}</div>
         }

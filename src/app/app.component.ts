@@ -4,12 +4,14 @@ import { MealPlan } from '../dtos/meal-plan';
 import { FormsModule } from '@angular/forms';
 import { MEAL_LIST } from '../dtos/meal-list';
 import { MealTag } from '../dtos/meal-tag';
+import { FilterItem } from '../dtos/filter-item';
+import { FilterItemComponent } from "./filter-item/filter-item.component";
 
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [FormsModule],
+    imports: [FormsModule, FilterItemComponent],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })
@@ -19,9 +21,12 @@ export class AppComponent implements OnInit {
     meals: Meal[] = MEAL_LIST;
     meatMeals: Meal[] = [];
     vegMeals: Meal[] = [];
+    filterItems: FilterItem[];
+    mealTags: MealTag[] = Object.values(MealTag);
 
     constructor() {
         this.mealPlans = this.initMealPlans();
+        this.filterItems = this.initFilterItems();
     }
 
     ngOnInit(): void {
@@ -60,7 +65,20 @@ export class AppComponent implements OnInit {
         }
     }
 
-    initMealPlans(): MealPlan[] {
+    handleFilterItemClick($event: FilterItem) {
+        const filterItem = this.filterItems.find(x => x.tag == $event.tag);
+        if (filterItem) {
+            filterItem.active = $event.active;
+        }
+
+        const activeFilterTags: string[] = this.filterItems.filter(x => x.active == true).map(x => x.tag.toString());
+        const filteredMeals = this.meals.filter(x =>
+            x.tags.some(y => activeFilterTags.includes(y.toString()))
+        );
+        this.meals = filteredMeals;
+    }
+
+    private initMealPlans(): MealPlan[] {
         return [
             { dayOfWeek: 'Friday', meal: { name: '', tags: [] }, isLocked: false },
             { dayOfWeek: 'Saturday', meal: { name: '', tags: [] }, isLocked: false },
@@ -70,6 +88,16 @@ export class AppComponent implements OnInit {
             { dayOfWeek: 'Wednesday', meal: { name: '', tags: [] }, isLocked: false },
             { dayOfWeek: 'Thursday', meal: { name: '', tags: [] }, isLocked: false },
         ]
+    }
+
+    private initFilterItems(): FilterItem[] {
+        let filterItems: FilterItem[] = [];
+        for (let i = 0; i < this.mealTags.length; i++) {
+            const element = this.mealTags[i];
+
+            filterItems.push({ active: true, tag: element });
+        }
+        return filterItems;
     }
 
     private shuffle(array: Array<any>) {

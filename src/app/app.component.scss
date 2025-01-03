@@ -1,13 +1,14 @@
 .container {
     display: flex;
 
-    div {
-        width: 100%;
-    }
-
     h2 {
         text-align: center;
     }
+}
+
+.container>div {
+    width: 50%;
+    padding: 10px;
 }
 
 #plan-container {
@@ -15,6 +16,8 @@
     table {
         border-collapse: separate;
         border-spacing: 0;
+        margin: 0 auto;
+        width: 100%;
 
         th,
         td {
@@ -27,12 +30,16 @@
 
     }
 
-    #shuffleButton {
-        background-color: #007AFF;
-        color: white;
-        width: fit-content;
-        padding: 10px 15px;
-        border-radius: 8px;
-        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    .button-container {
+        justify-content: center;
+
+        #shuffleButton {
+            background-color: #007AFF;
+            color: white;
+            width: fit-content;
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
     }
 }
