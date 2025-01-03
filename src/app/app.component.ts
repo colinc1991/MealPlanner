@@ -45,7 +45,22 @@ export class AppComponent implements OnInit {
 
         // meatMeals doesn't include fish because fish is usually smoked salmon and lasts a while
         this.meatMeals = this.meals.filter(x => x.tags.includes(MealTag.Beef) || x.tags.includes(MealTag.Chicken) || x.tags.includes(MealTag.Turkey));
-        this.vegMeals = this.meals.filter(x => x.tags.includes(MealTag.Vegetarian) || x.tags.includes(MealTag.LongLife));
+        this.vegMeals = this.meals.filter(x => (x.tags.includes(MealTag.Vegetarian) || x.tags.includes(MealTag.LongLife)) && !x.tags.includes(MealTag.NonVegetarian));
+
+        if (this.vegMeals.length < 2 && this.meatMeals.length < 5) {
+            alert('Need at leat 2 veg and 5 meat meals');
+            return;
+        }
+
+        if (this.vegMeals.length < 2) {
+            alert('Need at least 2 veg meals');
+            return;
+        }
+
+        if (this.meatMeals.length < 5) {
+            alert('Need at least 5 meat meals');
+            return;
+        }
 
         this.shuffle(this.meatMeals);
         this.shuffle(this.vegMeals);
@@ -78,9 +93,10 @@ export class AppComponent implements OnInit {
 
         const activeFilterTags: string[] = this.filterItems.filter(x => x.active == true).map(x => x.tag.toString());
         const inactiveFilterTags: string[] = this.filterItems.filter(x => x.active == false).map(x => x.tag.toString());
-        const filteredMeals = this.meals.filter(x =>
-            x.tags.some(y => activeFilterTags.includes(y.toString())) &&
-            !x.tags.some(y => inactiveFilterTags.includes(y.toString()))
+        // Filter logic: Include meals that match at least one active tag, and don't exclude them just because of inactive tags.
+        const filteredMeals = this.meals.filter(meal =>
+            meal.tags.some(tag => activeFilterTags.includes(tag.toString())) &&
+            (!meal.tags.every(tag => inactiveFilterTags.includes(tag.toString())))
         );
         this.meals = filteredMeals;
     }
