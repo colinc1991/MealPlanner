@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MealPlan } from '../../dtos/meal-plan';
 import { Meal } from '../../dtos/meal';
-import { FilterItem } from '../../dtos/filter-item';
 import { MealService } from '../../services/meal.service';
 import { MealTag } from '../../dtos/meal-tag';
 import { FormsModule } from '@angular/forms';
