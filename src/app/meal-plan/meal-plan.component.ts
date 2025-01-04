@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MealPlan } from '../../dtos/meal-plan';
 import { Meal } from '../../dtos/meal';
 import { MealService } from '../../services/meal.service';
-import { MealTag } from '../../dtos/meal-tag';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -36,28 +35,50 @@ export class MealPlanComponent implements OnInit {
             this.meals = this.meals.filter(x => !lockedMeals.includes(x.name))
         }
 
-        // meatMeals doesn't include fish because fish is usually smoked salmon and lasts a while
-        let meatMeals = this.meals.filter(x => x.tags.includes(MealTag.Beef) || x.tags.includes(MealTag.Chicken) || x.tags.includes(MealTag.Turkey));
-        let vegMeals = this.meals.filter(x => (x.tags.includes(MealTag.Vegetarian) || x.tags.includes(MealTag.LongLife)) && !x.tags.includes(MealTag.NonVegetarian));
+        let meatMeals = this.mealService.getMeatMeals();
+        let vegMeals = this.mealService.getVegMeals();
 
+        if (!this.mealsAreValid(meatMeals, vegMeals)) {
+            return;
+        }
+
+        meatMeals = this.mealService.shuffleMeals(meatMeals);
+        vegMeals = this.mealService.shuffleMeals(vegMeals);
+
+        this.setMealPlans(meatMeals, vegMeals);
+    }
+
+    private mealsAreValid(meatMeals: Meal[], vegMeals: Meal[]): boolean {
         if (vegMeals.length < 2 && meatMeals.length < 5) {
             alert('Need at leat 2 veg and 5 meat meals');
-            return;
+            return false;
         }
 
         if (vegMeals.length < 2) {
             alert('Need at least 2 veg meals');
-            return;
+            return false;
         }
 
         if (meatMeals.length < 5) {
             alert('Need at least 5 meat meals');
-            return;
+            return false;
         }
+        return true;
+    }
 
-        this.shuffle(meatMeals);
-        this.shuffle(vegMeals);
+    private initMealPlans(): MealPlan[] {
+        return [
+            { dayOfWeek: 'Friday', meal: { name: '', tags: [] }, isLocked: false },
+            { dayOfWeek: 'Saturday', meal: { name: '', tags: [] }, isLocked: false },
+            { dayOfWeek: 'Sunday', meal: { name: '', tags: [] }, isLocked: false },
+            { dayOfWeek: 'Monday', meal: { name: '', tags: [] }, isLocked: false },
+            { dayOfWeek: 'Tuesday', meal: { name: '', tags: [] }, isLocked: false },
+            { dayOfWeek: 'Wednesday', meal: { name: '', tags: [] }, isLocked: false },
+            { dayOfWeek: 'Thursday', meal: { name: '', tags: [] }, isLocked: false },
+        ]
+    }
 
+    private setMealPlans(meatMeals: Meal[], vegMeals: Meal[]) {
         let meatMealIndex = 0;
         let vegMealIndex = 0;
         for (let i = 0; i < this.mealPlans.length; i++) {
@@ -74,31 +95,6 @@ export class MealPlanComponent implements OnInit {
                 this.mealPlans[i].meal = vegMeals[vegMealIndex]
                 vegMealIndex++
             }
-        }
-    }
-
-    private initMealPlans(): MealPlan[] {
-        return [
-            { dayOfWeek: 'Friday', meal: { name: '', tags: [] }, isLocked: false },
-            { dayOfWeek: 'Saturday', meal: { name: '', tags: [] }, isLocked: false },
-            { dayOfWeek: 'Sunday', meal: { name: '', tags: [] }, isLocked: false },
-            { dayOfWeek: 'Monday', meal: { name: '', tags: [] }, isLocked: false },
-            { dayOfWeek: 'Tuesday', meal: { name: '', tags: [] }, isLocked: false },
-            { dayOfWeek: 'Wednesday', meal: { name: '', tags: [] }, isLocked: false },
-            { dayOfWeek: 'Thursday', meal: { name: '', tags: [] }, isLocked: false },
-        ]
-    }
-
-    private shuffle(array: Array<any>) {
-        let currentIndex = array.length;
-
-        while (currentIndex != 0) {
-
-            let randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
-
-            [array[currentIndex], array[randomIndex]] = [
-                array[randomIndex], array[currentIndex]];
         }
     }
 }
