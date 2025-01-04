@@ -22,7 +22,7 @@ export class MealPlanComponent implements OnInit {
         this.mealPlans = this.initMealPlans();
         this.mealService = mealService;
 
-        this.meals = this.mealService.getMeals();
+        this.meals = this.mealService.getBaseMeals();
     }
 
     ngOnInit(): void {
@@ -30,6 +30,7 @@ export class MealPlanComponent implements OnInit {
     }
 
     shufflePlan() {
+        this.meals = this.mealService.getActiveMeals();
         const lockedMeals = this.mealPlans.filter(x => x.isLocked == true).map(x => x.meal.name);
         if (lockedMeals.length > 0) {
             this.meals = this.meals.filter(x => !lockedMeals.includes(x.name))

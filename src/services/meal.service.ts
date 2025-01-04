@@ -6,12 +6,21 @@ import { Meal } from '../dtos/meal';
     providedIn: 'root'
 })
 export class MealService {
-    baseMeals: Meal[] = MEAL_LIST;
+    private baseMeals: Meal[] = MEAL_LIST;
+    private activeMeals: Meal[] = MEAL_LIST;
     constructor() {
 
     }
 
-    getMeals(): Meal[] {
+    getBaseMeals(): Meal[] {
         return [...this.baseMeals];
+    }
+
+    setActiveMeals(meals: Meal[]): void {
+        this.activeMeals = meals;
+    }
+
+    getActiveMeals(): Meal[] {
+        return this.activeMeals;
     }
 }

@@ -25,7 +25,7 @@ export class AppComponent {
         this.filterItems = this.initFilterItems();
         this.mealService = mealService;
 
-        this.meals = this.mealService.getMeals();
+        this.meals = this.mealService.getBaseMeals();
     }
 
     private initFilterItems(): FilterItem[] {
@@ -40,7 +40,7 @@ export class AppComponent {
     }
 
     handleFilterItemClick($event: FilterItem) {
-        this.meals = this.mealService.getMeals();
+        this.meals = this.mealService.getBaseMeals();
         const filterItem = this.filterItems.find(x => x.tag == $event.tag);
         if (filterItem) {
             filterItem.active = $event.active;
@@ -53,6 +53,7 @@ export class AppComponent {
             meal.tags.some(tag => activeFilterTags.includes(tag.toString())) &&
             (!meal.tags.every(tag => inactiveFilterTags.includes(tag.toString())))
         );
+        this.mealService.setActiveMeals(filteredMeals);
         this.meals = filteredMeals;
     }
 }
