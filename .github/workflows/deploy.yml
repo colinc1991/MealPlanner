@@ -26,12 +26,12 @@ jobs:
         run: npm install
 
       - name: Build Angular app
-        run: npm run build -- --output-path=dist --base-href="/MealPlanner/"
+        run: npm run build -- --output-path=dist/MealPlanner --base-href="/MealPlanner/"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: dist
+          path: dist/MealPlanner
 
       - name: Deploy to GitHub Pages
         id: deployment
