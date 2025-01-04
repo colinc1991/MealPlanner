@@ -6,11 +6,11 @@ on:
       - master
 
 jobs:
-  build-deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Setup Node.js
@@ -18,14 +18,17 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm install
 
-      - name: Build Angular App
-        run: npm run build -- --output-path=dist/MealPlanner --base-href="/MealPlanner/"
+      - name: Build Angular app
+        run: npm run build -- --output-path=dist/MealPlanner --base-href="/"
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: dist/MealPlanner
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: gh-pages
-          folder: dist/MealPlanner/browser
+        id: deployment
+        uses: actions/deploy-pages@v2
