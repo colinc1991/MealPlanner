@@ -20,18 +20,18 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: "18"
 
       - name: Install dependencies
         run: npm install
 
       - name: Build Angular app
-        run: npm run build -- --output-path=dist/MealPlanner --base-href="/MealPlanner/"
+        run: npm run build -- --output-path=dist/meal-planner --base-href="/MealPlanner/"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: dist/MealPlanner
+          path: dist/meal-planner
 
       - name: Deploy to GitHub Pages
         id: deployment
