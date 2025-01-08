@@ -35,8 +35,8 @@ export class MealPlanComponent implements OnInit {
             this.meals = this.meals.filter(x => !lockedMeals.includes(x.name))
         }
 
-        let meatMeals = this.mealService.getMeatMeals();
-        let vegMeals = this.mealService.getVegMeals();
+        let meatMeals = this.mealService.getMeatMeals(this.meals);
+        let vegMeals = this.mealService.getVegMeals(this.meals);
 
         if (!this.mealsAreValid(meatMeals, vegMeals)) {
             return;
