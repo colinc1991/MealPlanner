@@ -6,6 +6,11 @@
         <div id="meal-list" class="col-md-6 col-sm-12">
             <h2>Meal list</h2>
 
+            <div class="utility-container">
+                <div class="clickable utility" (click)="selectAllFilters()">Select all</div>
+                <div class="clickable utility" (click)="clearAllFilters()">Clear all</div>
+            </div>
+
             <div id="meal-tag-container">
                 @for (filterItem of filterItems; track $index) {
                 <app-filter-item [name]="filterItem.tag" [active]="filterItem.active"
