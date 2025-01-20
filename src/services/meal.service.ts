@@ -2,11 +2,15 @@ import { Injectable } from '@angular/core';
 import { MEAL_LIST } from '../dtos/meal-list';
 import { Meal } from '../dtos/meal';
 import { MealTag } from '../dtos/meal-tag';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
 })
 export class MealService {
+    private modalStateSubject = new BehaviorSubject<string>("");
+    modalState$ = this.modalStateSubject.asObservable();
+
     private baseMeals: Meal[] = MEAL_LIST;
     private activeMeals: Meal[] = MEAL_LIST;
     constructor() { }
@@ -62,5 +66,13 @@ export class MealService {
         }
 
         return array;
+    }
+
+    openModal(modalText: string): void {
+        this.modalStateSubject.next(modalText);
+    }
+
+    closeModal(): void {
+        this.modalStateSubject.next("");
     }
 }

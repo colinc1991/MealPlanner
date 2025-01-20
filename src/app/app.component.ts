@@ -6,12 +6,13 @@ import { MealPlanComponent } from "./meal-plan/meal-plan.component";
 import { Meal } from '../dtos/meal';
 import { MealService } from '../services/meal.service';
 import { MealTag } from '../dtos/meal-tag';
+import { DialogComponent } from "./dialog/dialog.component";
 
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [FormsModule, FilterItemComponent, MealPlanComponent],
+    imports: [FormsModule, FilterItemComponent, MealPlanComponent, DialogComponent],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })
