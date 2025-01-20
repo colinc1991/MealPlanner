@@ -50,17 +50,17 @@ export class MealPlanComponent implements OnInit {
 
     private mealsAreValid(meatMeals: Meal[], vegMeals: Meal[]): boolean {
         if (vegMeals.length < 2 && meatMeals.length < 5) {
-            alert('Need at leat 2 veg and 5 meat meals');
+            this.mealService.openModal("Need at leat 2 veg and 5 meat meals");
             return false;
         }
 
         if (vegMeals.length < 2) {
-            alert('Need at least 2 veg meals');
+            this.mealService.openModal('Need at least 2 veg meals');
             return false;
         }
 
         if (meatMeals.length < 5) {
-            alert('Need at least 5 meat meals');
+            this.mealService.openModal('Need at least 5 meat meals');
             return false;
         }
         return true;
