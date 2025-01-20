@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { MealService } from '../../services/meal.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-dialog',
@@ -9,15 +10,16 @@ import { MealService } from '../../services/meal.service';
     templateUrl: './dialog.component.html',
     styleUrl: './dialog.component.scss'
 })
-export class DialogComponent {
+export class DialogComponent implements OnDestroy {
     dialogText: string;
     isOpen: boolean = false;
     private mealService: MealService;
+    private modalSubscription: Subscription;
 
     constructor(mealService: MealService) {
         this.dialogText = "";
         this.mealService = mealService;
-        this.mealService.modalState$.subscribe((dialogueText) => {
+        this.modalSubscription = this.mealService.modalState$.subscribe((dialogueText) => {
 
             if (dialogueText == "") {
                 this.isOpen = false;
@@ -27,6 +29,12 @@ export class DialogComponent {
                 this.dialogText = dialogueText;
             }
         })
+    }
+
+    ngOnDestroy(): void {
+        if (this.modalSubscription) {
+            this.modalSubscription.unsubscribe();
+        }
     }
 
     closeDialogue() {
