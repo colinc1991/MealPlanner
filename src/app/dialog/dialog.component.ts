@@ -28,4 +28,8 @@ export class DialogComponent {
             }
         })
     }
+
+    closeDialogue() {
+        this.mealService.closeModal();
+    }
 }
