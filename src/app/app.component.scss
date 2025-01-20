@@ -3,3 +3,15 @@
         text-align: center;
     }
 }
+
+.utility-container {
+    display: flex;
+
+    .utility {
+        margin: 2px;
+        width: fit-content;
+        background-color: #d3d3d3;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+}

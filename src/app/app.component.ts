@@ -39,13 +39,8 @@ export class AppComponent {
         return filterItems;
     }
 
-    handleFilterItemClick($event: FilterItem) {
+    private updateFilteredMeals() {
         this.meals = this.mealService.getBaseMeals();
-        const filterItem = this.filterItems.find(x => x.tag == $event.tag);
-        if (filterItem) {
-            filterItem.active = $event.active;
-        }
-
         const activeFilterTags: string[] = this.filterItems.filter(x => x.active == true).map(x => x.tag.toString());
         const inactiveFilterTags: string[] = this.filterItems.filter(x => x.active == false).map(x => x.tag.toString());
         // Filter logic: Include meals that match at least one active tag, and don't exclude them just because of inactive tags.
@@ -55,5 +50,23 @@ export class AppComponent {
         );
         this.mealService.setActiveMeals(filteredMeals);
         this.meals = filteredMeals;
+    }
+
+    handleFilterItemClick($event: FilterItem) {
+        const filterItem = this.filterItems.find(x => x.tag == $event.tag);
+        if (filterItem) {
+            filterItem.active = $event.active;
+        }
+        this.updateFilteredMeals();
+    }
+
+    selectAllFilters() {
+        this.filterItems.forEach(x => x.active = true);
+        this.updateFilteredMeals();
+    }
+
+    clearAllFilters() {
+        this.filterItems.forEach(x => x.active = false);
+        this.updateFilteredMeals();
     }
 }
