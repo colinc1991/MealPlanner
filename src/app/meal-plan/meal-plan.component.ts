@@ -38,32 +38,10 @@ export class MealPlanComponent implements OnInit {
         let meatMeals = this.mealService.getMeatMeals(this.meals);
         let vegMeals = this.mealService.getVegMeals(this.meals);
 
-        if (!this.mealsAreValid(meatMeals, vegMeals)) {
-            return;
-        }
-
         meatMeals = this.mealService.shuffleMeals(meatMeals);
         vegMeals = this.mealService.shuffleMeals(vegMeals);
 
         this.setMealPlans(meatMeals, vegMeals);
-    }
-
-    private mealsAreValid(meatMeals: Meal[], vegMeals: Meal[]): boolean {
-        if (vegMeals.length < 2 && meatMeals.length < 5) {
-            this.mealService.openModal("Need at leat 2 veg and 5 meat meals");
-            return false;
-        }
-
-        if (vegMeals.length < 2) {
-            this.mealService.openModal('Need at least 2 veg meals');
-            return false;
-        }
-
-        if (meatMeals.length < 5) {
-            this.mealService.openModal('Need at least 5 meat meals');
-            return false;
-        }
-        return true;
     }
 
     private initMealPlans(): MealPlan[] {
