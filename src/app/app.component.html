@@ -1,27 +1,11 @@
-<div class="top-level-container container-fluid">
+<div class="container-fluid">
     <app-dialog></app-dialog>
     <div class="row">
         <div id="plan-container" class="col-md-6 col-sm-12">
             <app-meal-plan></app-meal-plan>
         </div>
-        <div id="meal-list" class="col-md-6 col-sm-12">
-            <h2>Meal list</h2>
-
-            <div class="utility-container">
-                <div class="clickable utility" (click)="selectAllFilters()">Select all</div>
-                <div class="clickable utility" (click)="clearAllFilters()">Clear all</div>
-            </div>
-
-            <div id="meal-tag-container">
-                @for (filterItem of filterItems; track $index) {
-                <app-filter-item [name]="filterItem.tag" [active]="filterItem.active"
-                    (activeChangedEvent)="handleFilterItemClick($event)"></app-filter-item>
-                }
-            </div>
-
-            @for (meal of meals; track $index) {
-            <div>{{meal.name}}</div>
-            }
+        <div id="meal-list-container" class="col-md-6 col-sm-12">
+            <app-meal-list></app-meal-list>
         </div>
     </div>
 </div>
