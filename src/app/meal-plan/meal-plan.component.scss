@@ -15,6 +15,16 @@ table {
         border-bottom: 1px solid black !important;
     }
 
+    thead tr th:first-child,
+    tbody tr td:first-child,
+    thead tr th:last-child,
+    tbody tr td:last-child {
+        width: 7em;
+        min-width: 7em;
+        max-width: 7em;
+        word-break: break-all;
+    }
+
     margin-bottom: 10px;
 
 }
