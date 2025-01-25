@@ -31,6 +31,11 @@ export class MealPlanComponent implements OnInit {
     shufflePlan() {
         this.meals = this.mealService.getActiveMeals();
         const lockedMeals = this.mealPlans.filter(x => x.isLocked == true).map(x => x.meal.name);
+
+        if (lockedMeals.length == 7) {
+            this.mealService.openModal("Can't shuffle meals - they're all locked!")
+        }
+
         if (lockedMeals.length > 0) {
             this.meals = this.meals.filter(x => !lockedMeals.includes(x.name))
         }
